@@ -17,6 +17,8 @@ public class AlbumRetrieveTest {
 
     IAlbumRetrieve albumRetrieve = new AlbumRetrieveOmdbImpl();
 
+    IAlbumRetrieve ar = new AlbumRetrieveImdbImpl();
+
     @Test
     public final void testOmdbRetrieve_1() {
         List<AlbumDto> outcome = albumRetrieve.retrieveAlbum("Indiana Jones");
@@ -32,6 +34,27 @@ public class AlbumRetrieveTest {
     @Test
     public final void testOmdbRetrieve_2() {
         List<AlbumDto> outcome = albumRetrieve.retrieveAlbum("IndianaXXXJones");
+
+        assertNotNull(outcome);
+        assertEquals(0, outcome.size());
+
+    }
+
+    @Test
+    public final void testImdbRetrieve_1() {
+        List<AlbumDto> outcome = ar.retrieveAlbum("Indiana Jones");
+
+        for (AlbumDto dto : outcome) {
+            System.out.println(dto.getTitle() + " | " + dto.getType()
+                    + " | " + dto.getImdbId() + " | " + dto.getYear());
+        }
+        assertNotNull(outcome);
+        assertTrue(outcome.size() > 0);
+    }
+
+    @Test
+    public final void testImdbRetrieve_2() {
+        List<AlbumDto> outcome = ar.retrieveAlbum("IndianaXXXJones");
 
         assertNotNull(outcome);
         assertEquals(0, outcome.size());
